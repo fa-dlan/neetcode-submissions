@@ -1,0 +1,23 @@
+"""
+Definition of Interval:
+class Interval(object):
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+"""
+import heapq
+
+class Solution:
+    def minMeetingRooms(self, intervals: List[Interval]) -> int:
+        if not intervals:
+            return 0
+        intervals.sort(key = lambda inv: inv.start)
+
+        ends = [intervals[0].end]
+        for inv in intervals[1:]:
+            min_end = ends[0]
+            if min_end <= inv.start:
+                heapq.heappop(ends)
+            heapq.heappush(ends, inv.end)
+
+        return len(ends)
